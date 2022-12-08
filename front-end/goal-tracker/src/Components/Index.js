@@ -1,3 +1,4 @@
+
 import React from "react";
 
 const Index = (props) => {
@@ -22,3 +23,4 @@ const Index = (props) => {
 };
 
 export default Index;
+
