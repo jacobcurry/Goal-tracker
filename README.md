@@ -1,2 +1,5 @@
 # Goal-tracker
-Track goals 
+
+Track goals
+
+# Jacob Curry
