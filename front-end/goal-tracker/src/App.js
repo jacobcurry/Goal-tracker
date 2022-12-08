@@ -1,40 +1,46 @@
 import React, {useState, useEffect} from 'react'
 import axios from 'axios'
+import TextField from '@mui/joy/TextField';
+import Button from '@mui/joy/Button';
+
+import GoalForm from './Components/GoalForm'
 
 const App = () => {
-  const [goal, setGoal] = useState([{
-    goal: "",
-    isComplete: false,
-    timeframe: ""
-  }])
+  // const [goal, setGoal] = useState([{
+  //   goal: "",
+  //   isComplete: false,
+  //   timeframe: ""
+  // }])
+
+  const [goal, setGoal] = useState('')
+  const [isComplete, setIsComplete] = useState('')
+  const [timeframe, setTimeframe] = useState('')
 
   const getGoal = (event) => {
-    let value = event.target.value
-    setGoal(goal[value].goal)
+    setGoal = event.target.value
   } 
 
   const getIsComplete = (event) => {
-    let value = event.target.value
-    setGoal(goal[value].isComplete)
+    setIsComplete = event.target.value
   }
+  
 
   const getTimeframe = (event) => {
-    let value = event.target.value
-    setGoal(goal[value].timeframe)
+    setTimeframe = event.target.value
   }
 
   const handleFormSubmit = (event) => {
     event.preventDefault()
     axios.post(
-      'http://localhost:3000/router',
+      'http://localhost:3000/goals',
       {
-        goal: goal.goal,
-        isComplete: goal.isComplete,
-        timeframe: goal.timeframe,
+        goal: goal,
+        isComplete: isComplete,
+        timeframe: timeframe,
       }
     ).then(()=> {
       axios
-        .get('http://localhost:3000/router')
+        .get('http://localhost:3000/goals')
         .then((response)=> {
           setGoal(response.data)
         })
@@ -43,10 +49,10 @@ const App = () => {
 
   const handleDelete = (goalData)=> {
     axios 
-      .delete(`http://localhost:3000/router/${goalData._id}`)
+      .delete(`http://localhost:3000/goals/${goalData._id}`)
       .then(()=> {
         axios 
-          .get('http://localhost:3000/router')
+          .get('http://localhost:3000/goals')
           .then((response)=> {
             setGoal(response.data)
           })
@@ -56,7 +62,7 @@ const App = () => {
   const handleUpdateAnimals = (goalData)=> {
     axios 
       .put(
-        `http://localhost:3000/router/${goalData._id}`,
+        `http://localhost:3000/goals/${goalData._id}`,
         {
           goal: goal.goal,
           isComplete: goal.isComplete,
@@ -64,7 +70,7 @@ const App = () => {
         }
       ).then(()=> {
         axios 
-          .get('http://localhost:3000/router')
+          .get('http://localhost:3000/goals')
           .then((response)=> {
             setGoal(response.data)
           })
@@ -73,7 +79,7 @@ const App = () => {
 
   useEffect(()=>{
     axios
-      .get('http://localhost:3000/router')
+      .get('http://localhost:3000/goals')
       .then((response)=>{
         setGoal(response.data)
       })
@@ -82,7 +88,7 @@ const App = () => {
 
     return (
     <>
-      Goal: <input type="text"></input> 
+      <GoalForm handleFormSubmit = {handleFormSubmit}/>
     </>
   )
 }
