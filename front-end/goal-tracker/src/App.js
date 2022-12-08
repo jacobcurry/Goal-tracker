@@ -1,9 +1,11 @@
+
 import React, {useState, useEffect} from 'react'
 import axios from 'axios'
 import TextField from '@mui/joy/TextField';
 import Button from '@mui/joy/Button';
 
 import GoalForm from './Components/GoalForm'
+import Index from "./Components/Index";
 
 const App = () => {
   // const [goal, setGoal] = useState([{
@@ -56,8 +58,6 @@ const App = () => {
           .then((response)=> {
             setGoal(response.data)
           })
-      })
-  }
 
   const handleUpdateAnimals = (goalData)=> {
     axios 
@@ -77,20 +77,28 @@ const App = () => {
       })
   }
 
-  useEffect(()=>{
-    axios
-      .get('http://localhost:3000/goals')
-      .then((response)=>{
-        setGoal(response.data)
-      })
-  }, [])
 
 
-    return (
+  useEffect(() => {
+    axios.get("http://localhost:3000/goals").then((response) => {
+      setGoal(response.data);
+    });
+  }, []);
+
+  return (
     <>
+  
+      {goal.map((eachGoal, index) => {
+        return (
+          <div key={index}>
+            <Index goal={goal} eachGoal={eachGoal} setGoal={setGoal} />
+          </div>
+        );
+      })}
+
       <GoalForm handleFormSubmit = {handleFormSubmit}/>
     </>
-  )
-}
+  );
+};
 
 export default App;
