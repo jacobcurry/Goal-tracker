@@ -25,44 +25,46 @@ const muiTheme = extendMuiTheme();
 const GoalForm = (params) => {
   return (
     <>
-      <form onSubmit={params.handleFormSubmit}>
-        <TextField
-          placeholder="Goal"
-          error
-          helperText="Goal required."
-          onChange={params.getGoal}
+      <form className="" onSubmit={params.handleFormSubmit}>
+        <label>Goal:</label>
+        <input className="form-control" type="text" onChange={params.getGoal} />
+        <input
+          className="form-check-input mt-3 mb-3 me-2"
+          type="checkbox"
+          id="flexCheckDefault"
+          onClick={params.getIsComplete}
         />
-        <Box>
-          <Checkbox onClick={params.getIsComplete} label="Goal Completed" />
-        </Box>
 
-        <Select
+        <label
+          className="form-check-label mt-3 mb-3"
+          htmlFor="flexCheckDefault"
+        >
+          Did you complete this goal?
+        </label>
+
+        <select
+          className="form-select"
+          aria-label="Default select example"
           onChange={params.getTimeframe}
-          placeholder="Goal Timeframe"
-          sx={{
-            width: 240,
-            [`& .${selectClasses.indicator}`]: {
-              transition: "0.2s",
-              [`&.${selectClasses.expanded}`]: {
-                transform: "rotate(-180deg)",
-              },
-            },
-          }}
+          name="dropdown"
         >
-          <Option value="daily">Daily</Option>
-          <Option value="weekly">Weekly</Option>
-          <Option value="monthly">Monthly</Option>
-          <Option value="yearly">Yearly</Option>
-        </Select>
-
-        <CSSVarsProvider
-          theme={deepmerge(joyTheme, muiTheme)}
-          shouldSkipGeneratingVar={(keys) =>
-            muiShouldSkipGeneratingVar(keys) || joyShouldSkipGeneratingVar(keys)
-          }
-        >
-          <Button type="submit">Create Goal</Button>
-        </CSSVarsProvider>
+          <option>Goal Timeframe</option>
+          <option name="dropdown" value="Daily">
+            Daily
+          </option>
+          <option name="dropdown" value="Weekly">
+            Weekly
+          </option>
+          <option name="dropdown" value="Monthly">
+            Monthly
+          </option>
+          <option name="dropdown" value="Yearly">
+            Yearly
+          </option>
+        </select>
+        <button className="btn btn-primary mt-3" type="submit">
+          Submit
+        </button>
       </form>
     </>
   );
