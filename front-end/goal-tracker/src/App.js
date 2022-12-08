@@ -15,19 +15,24 @@ const App = () => {
 
   const [goals, setGoals] = useState([]);
   const [goal, setGoal] = useState("");
-  const [isComplete, setIsComplete] = useState("");
+  const [isComplete, setIsComplete] = useState(false);
   const [timeframe, setTimeframe] = useState("");
+  const [showGoals, setShowGoals] = useState(false);
 
   const getGoal = (event) => {
     setGoal(event.target.value);
   };
 
   const getIsComplete = (event) => {
-    setIsComplete(event.target.value);
+    setIsComplete(event.target.checked);
   };
 
   const getTimeframe = (event) => {
-    setTimeframe(event.target.value);
+    setTimeframe(event.target.innerHTML);
+  };
+
+  const handleShowgoals = (e) => {
+    setShowGoals(!showGoals);
   };
 
   const handleFormSubmit = (event) => {
@@ -75,15 +80,22 @@ const App = () => {
 
   return (
     <>
-      {goals.map((eachGoal, index) => {
-        return (
-          <div key={index}>
-            <Index eachGoal={eachGoal} />
-          </div>
-        );
-      })}
-
-      <GoalForm handleFormSubmit={handleFormSubmit} />
+      <button onClick={handleShowgoals}>Show Goals</button>
+      {showGoals
+        ? goals.map((eachGoal, index) => {
+            return (
+              <div key={index}>
+                <Index eachGoal={eachGoal} />
+              </div>
+            );
+          })
+        : null}
+      <GoalForm
+        handleFormSubmit={handleFormSubmit}
+        getGoal={getGoal}
+        getIsComplete={getIsComplete}
+        getTimeframe={getTimeframe}
+      />
     </>
   );
 };
